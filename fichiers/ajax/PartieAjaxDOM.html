@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>TP 3IFA Ajax</title>
+    <meta name="author" content="Binome 2">
+
+    <script type="text/javascript" src="partieJavascript.js"></script>
+
+</head>
+
+<body> 
+	<h1>TP 3IFA Ajax - Binome 2</h1>
+	<h2>Romain Chikirou - Oumar Diakhaby - Carmen Prévot</h2>  
+    <p>
+        <input name="button" type="button" id="myButton1" onClick="Bouton1_changerCouleurs();" value="1. Modifier les couleurs" />
+        <br /><br />
+        <input name="button2" type="button" id="myButton2" onClick="Bouton2_reinitialiserCouleurs();" value="2. Remettre les couleurs de base" />
+        <br /><br />
+        <input name="button3" type="button" id="myButton3" onClick="Bouton3_ajaxCountries('countriesTP.xml');" value="3. AJAX avec countriesTP.xml" />
+		<input name="text" type="text" id="codeCountry" value="FR" />
+        <br /><br />
+		<input name="button4" type="button" id="myButton4" onClick="afficherSVG('exemple.svg');" value="4. Afficher le dessin SVG" />
+        <br /><br />
+		<input name="button5" type="button" id="myButton5" onClick="Bouton5_exempleSVGcliquables('exemple.svg');" value="5. Rendre les formes cliquables" />
+        <br /><br />
+		<input name="button6" type="button" id="myButton6" onClick="afficherSVG('worldHigh.svg');" value="6. Afficher la carte du monde" />
+        <br /><br />
+		<input name="button7" type="button" id="myButton7" onClick="Bouton7_paysSVGcliquables('worldHigh.svg');" value="7. Rendre les pays cliquables" />
+        <br /><br />
+    </p>
+
+	<h3 id="title"></h3>
+    <div id="resultat">
+        <p style="color: red; font-weight: bold;">Cet élément sera remplacé par la suite</p>
+    </div>
+
+
+</body>
+
+</html>
