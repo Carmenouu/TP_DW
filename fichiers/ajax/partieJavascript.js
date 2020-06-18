@@ -187,8 +187,72 @@ function Bouton5_exempleSVGcliquables(svgDocumentUrl) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Bouton7_paysSVGcliquables(svgDocumentUrl) {
 	afficherSVG(svgDocumentUrl) ;
-	
-	
+    
+    var elementHtmlARemplir = window.document.getElementById("title");
+    pays = document.querySelectorAll("path");
+
+    pays.forEach(function(element){
+        element.addEventListener('click', function (element) {
+            console.log(element)
+		    elementHtmlARemplir.innerHTML = "Pays : " + element.explicitOriginalTarget.attributes[1].nodeValue ;
+	    });
+    });
 }
 
+function Bouton8_paysSVGhover(svgDocumentUrl)
+{
+    afficherSVG(svgDocumentUrl) ;
+    
+    var elementHtmlARemplir = window.document.getElementById("title");
+    pays = document.querySelectorAll("path");
+
+    //pour chaque pays
+    pays.forEach(function(item){
+        //event mousover
+        item.addEventListener('mouseover', function (element) {
+            //ajout de la classe "surlignage"
+            element.explicitOriginalTarget.classList.add("selected");
+		    elementHtmlARemplir.innerHTML = "Pays : " + element.explicitOriginalTarget.attributes[1].nodeValue ;
+        
+            //generation du tableau
+            var table = generateTable();
+            let row = document.createElement("tr");
+            let th = document.createElement("th");
+            th.innerHTML = "donnees";
+            row.appendChild(th);
+            
+            document.getElementById("resultatTable").appendChild(table);
+            
+        });
+        
+        //event mouseout
+        item.addEventListener('mouseout', function (element) {
+            console.log("tamer");
+            element.explicitOriginalTarget.classList.remove("selected");
+            document.querySelector("table").remove()
+            //element.explicitOriginalTarget.style.fill = "black";
+		    //elementHtmlARemplir.innerHTML = "Pays : " + element.explicitOriginalTarget.attributes[1].nodeValue ;
+        });
+    });
+}
+
+//genere un tableau
+function generateTable()
+{
+    var head = ["name", "capital", "flag"];
+
+    var table = document.createElement("table");
+
+    let row = document.createElement("tr");
+    for (let item of head) {
+        let th = document.createElement("th");
+        th.innerHTML = item;
+        row.appendChild(th);
+    }
+    table.appendChild(row);
+
+    console.log(table);
+
+    return table;
+}
 
