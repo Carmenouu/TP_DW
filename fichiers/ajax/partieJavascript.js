@@ -156,7 +156,7 @@ function Bouton3_ajaxCountries(xmlDocumentUrl, xslDocumentUrl) {
     var elementHtmlParent = window.document.getElementById("resultat");
     // Premier �l�ment fils du parent
     var elementHtmlARemplacer = recupererPremierEnfantDeTypeNode(elementHtmlParent);
-    // Premier �l�ment "elementName" du nouveau document (par exemple, "ul", "table"...)
+    // Premier �l�ment "p"
     var elementAInserer = newXmlDocument.getElementsByTagName("p")[0];
 	
     // Remplacement de l'�l�ment
@@ -198,3 +198,15 @@ function Bouton7_paysSVGcliquables(svgDocumentUrl) {
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Bouton9_autocompletion(xmlDocumentUrl){
+	var xmlDocument = chargerHttpXML("countriesTP.xml");
+	var countriesList = xmlDocument.getElementsByTagName("cca2");
+	var options = '';
+	var dataListCountries = document.getElementById("codes") ;
+	
+	for(var i=0; i< countriesList.length; i++){
+		options += '<option value="'+countriesList[i].innerHTML+'"/>';
+	}
+	dataListCountries.innerHTML = options;
+}

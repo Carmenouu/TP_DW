@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
     <title>TP 3IFA Ajax</title>
     <meta name="author" content="Binome 2">
-
     <script type="text/javascript" src="partieJavascript.js"></script>
 
 </head>
@@ -19,7 +18,8 @@
         <input name="button2" type="button" id="myButton2" onClick="Bouton2_reinitialiserCouleurs();" value="2. Remettre les couleurs de base" />
         <br /><br />
         <input name="button3" type="button" id="myButton3" onClick="Bouton3_ajaxCountries('countriesTP.xml', 'cherchePays.xsl');" value="3. AJAX avec countriesTP.xml" />
-		<input name="text" type="text" id="codeCountry" value="FR" />
+		<input name="text" type="text" id="codeCountry" list="codes" value="FR" autocomplete=off>
+		<datalist id="codes"></datalist>
         <br /><br />
 		<input name="button4" type="button" id="myButton4" onClick="afficherSVG('exemple.svg');" value="4. Afficher le dessin SVG" />
         <br /><br />
@@ -29,6 +29,10 @@
         <br /><br />
 		<input name="button7" type="button" id="myButton7" onClick="Bouton7_paysSVGcliquables('worldHigh.svg');" value="7. Rendre les pays cliquables" />
         <br /><br />
+		<input name="button8" type="button" id="myButton8" onClick="Bouton8_paysSVGhover('worldHigh.svg');" value="8. Rendre les pays actif au survol" />
+        <br /><br />
+		<input name="button9" type="button" id="myButton9" onClick="Bouton9_autocompletion('countriesTP.xml');" value="9. Autocomplétion du bouton 3" />
+
     </p>
 
 	<h3 id="title"></h3>
