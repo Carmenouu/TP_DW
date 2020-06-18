@@ -30,7 +30,7 @@ function chargerHttpXML(xmlDocumentUrl) {
         httpAjax.overrideMimeType('text/xml');
     }
 
-    //chargement du fichier XML � l'aide de XMLHttpRequest synchrone (le 3� param�tre est d�fini � false)
+    //chargement du fichier XML � l'aide de XMLHttpRequest synchrone (le 3e parametre est défini à false)
     httpAjax.open('GET', xmlDocumentUrl, false);
     httpAjax.send();
 
@@ -47,9 +47,9 @@ function chargerHttpJSON(jsonDocumentUrl) {
         new XMLHttpRequest() :
         new ActiveXObject('Microsoft.XMLHTTP');
 
-    if (httpAjax.overrideMimeType) {
+    /*if (httpAjax.overrideMimeType) {
         httpAjax.overrideMimeType('text/xml');
-    }
+    }*/
 
     // chargement du fichier JSON � l'aide de XMLHttpRequest synchrone (le 3� param�tre est d�fini � false)
     httpAjax.open('GET', jsonDocumentUrl, false);
@@ -193,10 +193,73 @@ function Bouton5_exempleSVGcliquables(svgDocumentUrl) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Bouton7_paysSVGcliquables(svgDocumentUrl) {
 	afficherSVG(svgDocumentUrl) ;
-	
-	
+    
+    var elementHtmlARemplir = window.document.getElementById("title");
+    pays = document.querySelectorAll("path");
+
+    pays.forEach(function(element){
+        element.addEventListener('click', function (event) {
+		    elementHtmlARemplir.innerHTML = "Pays : " + event.target.attributes[1].nodeValue ;
+	    });
+    });
 }
 
+function Bouton8_paysSVGhover(svgDocumentUrl)
+{
+    afficherSVG(svgDocumentUrl) ;
+    
+    var elementHtmlARemplir = window.document.getElementById("title");
+    pays = document.querySelectorAll("path");
+
+    //pour chaque pays
+    pays.forEach(function(item){
+        //event mousover
+        item.addEventListener('mouseover', function (event) {
+            let codePays = event.target.id;
+
+            //element.explicitOriginalTarget.classList.add("selected");
+            event.target.style.fill = "green";
+
+            //XSL ET XML BOUTON 3
+            //recuperation nomPays et capitale
+            var xsltProcessor = new XSLTProcessor();
+	        xsltProcessor.setParameter(null, "code", codePays) ;
+            // Chargement du fichier XSL � l'aide de XMLHttpRequest synchrone 
+            var xslDocument = chargerHttpXML("cherchePays.xsl");
+            // Importation du .xsl
+            xsltProcessor.importStylesheet(xslDocument);
+            // Chargement du fichier XML � l'aide de XMLHttpRequest synchrone 
+            var xmlDocument = chargerHttpXML("countriesTP.xml");
+            // Cr�ation du document XML transform� par le XSL
+            var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
+
+            
+            document.querySelector("table").style.display = "block";
+            document.getElementById("table-pays").innerHTML = newXmlDocument.getElementById("pays").innerHTML;
+            document.getElementById("table-capital").innerHTML = newXmlDocument.getElementById("capitale").innerHTML;
+            let img = document.createElement("img");
+            img.id = "flag";
+            img.src = "http://www.geonames.org/flags/x/" + codePays.toLowerCase() + ".gif";
+            img.height = "40";
+            img.width = "60";
+            document.getElementById("table-flag").appendChild(img);
+
+            //appelle ajax pour recuperer la
+            let jsonCurrency = chargerHttpJSON("https://restcountries.eu/rest/v2/alpha/"+codePays.toLowerCase());
+            document.getElementById("table-currency").innerHTML = jsonCurrency.currencies[0].name;
+            
+        });
+        
+        //event mouseout
+        item.addEventListener('mouseleave', function (event) {
+            //element.explicitOriginalTarget.classList.remove("selected");
+            event.target.style.fill = "#CCCCCC";
+            console.log(event.target.className);
+            document.getElementById("table-flag").removeChild(document.getElementById("flag"))
+            document.querySelector("table").style.display = "none";
+        });
+    });
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Bouton9_autocompletion(xmlDocumentUrl){
