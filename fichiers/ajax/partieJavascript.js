@@ -30,7 +30,7 @@ function chargerHttpXML(xmlDocumentUrl) {
         httpAjax.overrideMimeType('text/xml');
     }
 
-    //chargement du fichier XML � l'aide de XMLHttpRequest synchrone (le 3� param�tre est d�fini � false)
+    //chargement du fichier XML � l'aide de XMLHttpRequest synchrone (le 3e parametre est défini à false)
     httpAjax.open('GET', xmlDocumentUrl, false);
     httpAjax.send();
 
@@ -47,9 +47,9 @@ function chargerHttpJSON(jsonDocumentUrl) {
         new XMLHttpRequest() :
         new ActiveXObject('Microsoft.XMLHTTP');
 
-    if (httpAjax.overrideMimeType) {
+    /*if (httpAjax.overrideMimeType) {
         httpAjax.overrideMimeType('text/xml');
-    }
+    }*/
 
     // chargement du fichier JSON � l'aide de XMLHttpRequest synchrone (le 3� param�tre est d�fini � false)
     httpAjax.open('GET', jsonDocumentUrl, false);
@@ -198,9 +198,8 @@ function Bouton7_paysSVGcliquables(svgDocumentUrl) {
     pays = document.querySelectorAll("path");
 
     pays.forEach(function(element){
-        element.addEventListener('click', function (element) {
-            console.log(element)
-		    elementHtmlARemplir.innerHTML = "Pays : " + element.explicitOriginalTarget.attributes[1].nodeValue ;
+        element.addEventListener('click', function (event) {
+		    elementHtmlARemplir.innerHTML = "Pays : " + event.target.attributes[1].nodeValue ;
 	    });
     });
 }
@@ -215,50 +214,50 @@ function Bouton8_paysSVGhover(svgDocumentUrl)
     //pour chaque pays
     pays.forEach(function(item){
         //event mousover
-        item.addEventListener('mouseover', function (element) {
-            //ajout de la classe "surlignage"
-            element.explicitOriginalTarget.classList.add("selected");
-		    elementHtmlARemplir.innerHTML = "Pays : " + element.explicitOriginalTarget.attributes[1].nodeValue ;
-        
-            //generation du tableau
-            var table = generateTable();
-            let row = document.createElement("tr");
-            let th = document.createElement("th");
-            th.innerHTML = "donnees";
-            row.appendChild(th);
+        item.addEventListener('mouseover', function (event) {
+            let codePays = event.target.id;
+
+            //element.explicitOriginalTarget.classList.add("selected");
+            event.target.style.fill = "green";
+
+            //XSL ET XML BOUTON 3
+            //recuperation nomPays et capitale
+            var xsltProcessor = new XSLTProcessor();
+	        xsltProcessor.setParameter(null, "code", codePays) ;
+            // Chargement du fichier XSL � l'aide de XMLHttpRequest synchrone 
+            var xslDocument = chargerHttpXML("cherchePays.xsl");
+            // Importation du .xsl
+            xsltProcessor.importStylesheet(xslDocument);
+            // Chargement du fichier XML � l'aide de XMLHttpRequest synchrone 
+            var xmlDocument = chargerHttpXML("countriesTP.xml");
+            // Cr�ation du document XML transform� par le XSL
+            var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
+
             
-            document.getElementById("resultatTable").appendChild(table);
+            document.querySelector("table").style.display = "block";
+            document.getElementById("table-pays").innerHTML = newXmlDocument.getElementById("pays").innerHTML;
+            document.getElementById("table-capital").innerHTML = newXmlDocument.getElementById("capitale").innerHTML;
+            let img = document.createElement("img");
+            img.id = "flag";
+            img.src = "http://www.geonames.org/flags/x/" + codePays.toLowerCase() + ".gif";
+            img.height = "40";
+            img.width = "60";
+            document.getElementById("table-flag").appendChild(img);
+
+            //appelle ajax pour recuperer la
+            let jsonCurrency = chargerHttpJSON("https://restcountries.eu/rest/v2/alpha/"+codePays.toLowerCase());
+            document.getElementById("table-currency").innerHTML = jsonCurrency.currencies[0].name;
             
         });
         
         //event mouseout
-        item.addEventListener('mouseout', function (element) {
-            console.log("tamer");
-            element.explicitOriginalTarget.classList.remove("selected");
-            document.querySelector("table").remove()
-            //element.explicitOriginalTarget.style.fill = "black";
-		    //elementHtmlARemplir.innerHTML = "Pays : " + element.explicitOriginalTarget.attributes[1].nodeValue ;
+        item.addEventListener('mouseleave', function (event) {
+            //element.explicitOriginalTarget.classList.remove("selected");
+            event.target.style.fill = "#CCCCCC";
+            console.log(event.target.className);
+            document.getElementById("table-flag").removeChild(document.getElementById("flag"))
+            document.querySelector("table").style.display = "none";
         });
     });
-}
-
-//genere un tableau
-function generateTable()
-{
-    var head = ["name", "capital", "flag"];
-
-    var table = document.createElement("table");
-
-    let row = document.createElement("tr");
-    for (let item of head) {
-        let th = document.createElement("th");
-        th.innerHTML = item;
-        row.appendChild(th);
-    }
-    table.appendChild(row);
-
-    console.log(table);
-
-    return table;
 }
 

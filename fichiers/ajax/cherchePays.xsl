@@ -17,8 +17,8 @@
   
  <xsl:template match='//country[codes/cca2=$code]'>
 	<p>
-		Pays : <xsl:value-of select="./name/common"/> <br />  
-		Capitale : <xsl:value-of select="./capital"/>
+		Pays : <span id="pays"><xsl:value-of select="./name/common"/></span> <br />  
+		Capitale : <span id="capitale"><xsl:value-of select="./capital"/></span>
 	</p>
   </xsl:template>
 

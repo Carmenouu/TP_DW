@@ -12,7 +12,7 @@
 
 <body> 
 	<h1>TP 3IFA Ajax - Binome 2</h1>
-	<h2>Romain Chikirou - Oumar Diakhaby - Carmen Prévot</h2>  
+	<h2>Romain Chikirou - Oumar Diakhaby - Carmen PrÃ©vot</h2>  
     <p>
         <input name="button" type="button" id="myButton1" onClick="Bouton1_changerCouleurs();" value="1. Modifier les couleurs" />
         <br /><br />
@@ -29,14 +29,27 @@
         <br /><br />
 		<input name="button7" type="button" id="myButton7" onClick="Bouton7_paysSVGcliquables('worldHigh.svg');" value="7. Rendre les pays cliquables" />
         <br /><br />
-        <input name="button8" type="button" id="myButton8" onClick="Bouton8_paysSVGhover('worldHigh.svg');" value="8. Rendre les pays actif au survol" />
+        <input name="button8_10" type="button" id="myButton8_10" onClick="Bouton8_paysSVGhover('worldHigh.svg');" value="8_10. Rendre les pays actif au survol + informations" />
         <br /><br />
     </p>
 
     <h3 id="title"></h3>
-    <div id="resultatTable"></div>
+    <table style="display:none; position:absolute;left:500px;top:250px;">
+        <tr>
+            <th>Pays</th>
+            <th>Capitale</th>
+            <th>Drapeau</th>
+            <th>Monnaie</th>
+        </tr>
+        <tr>
+            <td id="table-pays"></td>
+            <td id="table-capital"></td>
+            <td id="table-flag"></td>
+            <td id="table-currency"></td>
+        </tr>
+    </table>
     <div id="resultat">
-        <p style="color: red; font-weight: bold;">Cet élément sera remplacé par la suite</p>
+        <p style="color: red; font-weight: bold;">Cet Ã©lÃ©ment sera remplacÃ© par la suite</p>
     </div>
 
 
