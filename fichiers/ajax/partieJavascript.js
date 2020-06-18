@@ -101,6 +101,8 @@ function setDessin(dessin) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function afficherSVG(svgDocumentUrl) {
 	//charge le document SVG donn� en param�tre
+	// Fonction utilisée dans les boutons 4 et 6
+	
 	var svgDocument = chargerHttpXML(svgDocumentUrl) ;
 	
 	var oSerializer = new XMLSerializer() ;
@@ -157,11 +159,6 @@ function Bouton3_ajaxCountries(xmlDocumentUrl, xslDocumentUrl) {
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Bouton4_ajaxEmployeesTableau(xmlDocumentUrl, xslDocumentUrl) {
-    //commenter la ligne suivante qui affiche la bo�te de dialogue!
-    alert("Fonction � compl�ter...");
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Bouton5_exempleSVGcliquables(svgDocumentUrl) {
