@@ -51,27 +51,27 @@
     <p>Après avoir assigné la DTD au fichier XML, on peut vérifier le document.<br>Ainsi, on a une liste d'erreur :</p>
     <ul>
         <li>l'attribut area doit être déclaré pour l'élément country :</li>
-        <p>Correction : <!ATTLIST country area CDATA #REQUIRED></p>
+        <p>Correction : < !ATTLIST country area CDATA #REQUIRED></p>
         <p>area ne fait pas partie des éléments de country, mais
             est un attribut, et doit être déclaré dans un ATTLIST.
        Il ne faut pas oublier de l'ôter des éléments.</p>
         
         <li>l'élément continent doit être déclaré</li>
-        <p>Correction : 	<!ELEMENT continent (#PCDATA)></p>
+        <p>Correction : 	< !ELEMENT continent (#PCDATA)></p>
         <p>L'élément continent était appelé "region" dans la DTD.</p>
 
         <li>la déclaration des éléments de country doit être respectée</li>
-        <p>Correction :	<!ELEMENT country (name,tld+,codes,currency*,callingCode*,
+        <p>Correction :	< !ELEMENT country (name,tld+,codes,currency*,callingCode*,
             capital,altSpellings+, infosContinent*,languages+,
             coordinates*,demonym,landlocked,borders*)></p>
         <p>Il fallait mettre "infosContinent" et non "infosRegion".</p>
 
         <li>l'élément neighbour doit être déclaré</li>
-        <p>Correction :	<!ELEMENT neighbourers (#PCDATA)></p>
+        <p>Correction :	< !ELEMENT neighbourers (#PCDATA)></p>
         <p>L'élément s'appelle neighbour et non neighbourers.</p>
 
         <li>la déclaration des éléments country doit être respectée</li>
-        <p>Correction : 	<!ELEMENT country (name,tld*,codes,currency*,callingCode*,
+        <p>Correction : 	< !ELEMENT country (name,tld*,codes,currency*,callingCode*,
             capital,altSpellings+, infosContinent*,languages+,
             coordinates*,demonym,landlocked,borders*)></p>
         <p>L'élément tld avait comme indicateur d'occurence le +,
