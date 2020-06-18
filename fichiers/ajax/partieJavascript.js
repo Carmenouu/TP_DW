@@ -133,28 +133,34 @@ function Bouton2_reinitialiserCouleurs() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function Bouton3_ajaxCountries(xmlDocumentUrl, xslDocumentUrl) {
+	
+	var inputElement = document.getElementById("codeCountry") ;
+	var code = inputElement.value ;
 
+    var xsltProcessor = new XSLTProcessor();
+	xsltProcessor.setParameter(null, "code", code) ;
+	
+    // Chargement du fichier XSL � l'aide de XMLHttpRequest synchrone 
+    var xslDocument = chargerHttpXML(xslDocumentUrl);
 
+    // Importation du .xsl
+    xsltProcessor.importStylesheet(xslDocument);
+
+    // Chargement du fichier XML � l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML(xmlDocumentUrl);
 
-    //extraction des noms � partir du document XML (avec une feuille de style ou en javascript)
-    var lesNoms = xmlDocument.getElementsByTagName("LastName");
+    // Cr�ation du document XML transform� par le XSL
+    var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
 
-    // Parcours de la liste des noms avec une boucle for et 
-    // construction d'une chaine de charact�res contenant les noms s�par�s par des espaces 
-    // Pour avoir la longueur d'une liste : attribut 'length'
-    // Acc�s au texte d'un noeud "LastName" : NOM_NOEUD.firstChild.nodeValue
-    var chaineDesNoms = "";
-    for (i = 0; i < lesNoms.length; i++) {
-        if (i > 0) {
-            chaineDesNoms = chaineDesNoms + ", ";
-        }
-        chaineDesNoms = chaineDesNoms + lesNoms[i].firstChild.nodeValue + " ";
-    }
-
-
-    // Appel (ou recopie) de la fonction setNom(...) ou bien autre fa�on de modifier le texte de l'�l�ment "span"
-    setNom(chaineDesNoms);
+    // Recherche du parent (dont l'id est "here") de l'�l�ment � remplacer dans le document HTML courant
+    var elementHtmlParent = window.document.getElementById("resultat");
+    // Premier �l�ment fils du parent
+    var elementHtmlARemplacer = recupererPremierEnfantDeTypeNode(elementHtmlParent);
+    // Premier �l�ment "elementName" du nouveau document (par exemple, "ul", "table"...)
+    var elementAInserer = newXmlDocument.getElementsByTagName("p")[0];
+	
+    // Remplacement de l'�l�ment
+    elementHtmlParent.replaceChild(elementAInserer, elementHtmlARemplacer);
 
 
 }
