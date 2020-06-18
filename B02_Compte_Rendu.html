@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Compte rendu TP1 Données Web</h1>
+
+    <h3 id="auteur">Auteur : Carmen Prévot, Oumar Diakhaby, Romain Chikirou</h3>
+
+
+    <h2>Première partie : XML, DTD, XPath, XSLT</h2>
+
+    <h3>Etape 1 : Exploration de l'instance [XPath]</h3>
+
+    <p>Voici les expressions XPath pour sélectionner les éléments suivants :</p>
+
+    <ol>
+        <li>toutes les capitales</li>
+        <p class="reponse">//capital</p>
+        <li>les noms communs (name/common) des pays</li>
+        <p class="reponse">//name/common</p>
+        <li>la superficie de chaque pays</li>
+        <p class="reponse">//country/@area</p>
+        <li>les éléments ayant au moins un attribut</li>
+        <p class="reponse">//*[@*]</p>
+        <p class="commentaire">Commentaire : tous les élements (*) et tous les attributs (*)</p>
+        <li>les noms officiels des pays exprimés français, pour ceux qui en ont</li>
+        <p class="reponse">//country[./name/native_name/@lang="fra"]/name/common</p>
+        <li>les deuxièmes noms natifs officiels des pays</li>
+        <p class="reponse">//country/name/native_name[2]/official</p>
+        <li>la somme des superficies (area) des pays d'Europe</li>
+        <p class="reponse">sum(//country[./infosContinent/continent="Europe"]/@area)</p>
+        <li>les pays dont le nom commun n'est pas contenu dans leur nom officiel</li>
+        <p class="reponse">//country[not(contains(./name/official,./name/common))]</p>
+        <li>le dernier voisin de la France</li>
+        <p class="reponse">//country[./name/common="France"]/borders/neighbour[last()]</p>
+        <li>la position de la France dans le document XML</li>
+        <p class="reponse">count(//country[./name/common="France"]/preceding::country)+1</p>
+        <p class="commentaire">Commentaire : localisation du pays "France" et selection des éléments avant cet element</p>
+        <li>les langues des noms natifs des pays sans doublons</li>
+        <p class="reponse">//country/name/native_name[not(@lang=preceding::native_name/@lang)]/@lang</p>
+        <p class="commentaire">Commentaire : vérifie que la lang ne soit pas deja présente dans les élements précédents</p>
+    </ol>
+
+    <h3>Etape 2  : Mise à jour de l'instance [XML, DTD]</h3>
+
+    <p>Après avoir assigné la DTD au fichier XML, on peut vérifier le document.<br>Ainsi, on a une liste d'erreur :</p>
+    <ul>
+        <li>l'attribut area doit être déclaré pour l'élément country :</li>
+        <p>Correction : <!ATTLIST country area CDATA #REQUIRED></p>
+        <p>area ne fait pas partie des éléments de country, mais
+            est un attribut, et doit être déclaré dans un ATTLIST.
+       Il ne faut pas oublier de l'ôter des éléments.</p>
+        
+        <li>l'élément continent doit être déclaré</li>
+        <p>Correction : 	<!ELEMENT continent (#PCDATA)></p>
+        <p>L'élément continent était appelé "region" dans la DTD.</p>
+
+        <li>la déclaration des éléments de country doit être respectée</li>
+        <p>Correction :	<!ELEMENT country (name,tld+,codes,currency*,callingCode*,
+            capital,altSpellings+, infosContinent*,languages+,
+            coordinates*,demonym,landlocked,borders*)></p>
+        <p>Il fallait mettre "infosContinent" et non "infosRegion".</p>
+
+        <li>l'élément neighbour doit être déclaré</li>
+        <p>Correction :	<!ELEMENT neighbourers (#PCDATA)></p>
+        <p>L'élément s'appelle neighbour et non neighbourers.</p>
+
+        <li>la déclaration des éléments country doit être respectée</li>
+        <p>Correction : 	<!ELEMENT country (name,tld*,codes,currency*,callingCode*,
+            capital,altSpellings+, infosContinent*,languages+,
+            coordinates*,demonym,landlocked,borders*)></p>
+        <p>L'élément tld avait comme indicateur d'occurence le +,
+            signifiant qu'il était présent au moins une fois pour chaque
+            country. Or, certains ne l'avait pas du tout, nécessitant
+            de changer l'indicateur en *.</p>
+    </ul>
+
+    <p>Après ces modifications, le document est marqué comme correct.</p>
+
+</body>
+</html>
